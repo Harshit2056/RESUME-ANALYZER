@@ -1,8 +1,8 @@
-import { tokenBlacklistModel } from "../src/models/blacklist.model.js";
-import { User } from "../src/models/user.model.js";
-import apiError from "../src/utils/apiError.js";
-import apiResponse from "../src/utils/apiResponse.js";
-import asynchandler from "../src/utils/asynchandler.js";
+import { tokenBlacklistModel } from "../models/blacklist.model.js";
+import { User } from "../models/user.model.js";
+import apiError from "../utils/apiError.js";
+import apiResponse from "../utils/apiResponse.js";
+import asynchandler from "../utils/asynchandler.js";
 import jwt from "jsonwebtoken"
 
 const verifyJWT = asynchandler(async(req,res,next)=>{
