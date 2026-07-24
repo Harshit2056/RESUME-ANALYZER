@@ -10,6 +10,6 @@ authRouter.route("/login").post(loginUser)
 
 authRouter.route("/logout").post(verifyJWT, logoutUser)
 
-authRouter.route("/current-user").post(getCurrentUser)
+authRouter.route("/current-user").get(verifyJWT,getCurrentUser)
 
 export default authRouter;

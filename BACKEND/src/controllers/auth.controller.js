@@ -76,7 +76,7 @@ const loginUser = asynchandler(async(req,res)=>{
 
     const {refreshToken,accessToken} =await generateAccessAndRefreshToken(user._id)
 
-    const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
+    const LoggedInUser = await User.findById(user._id).select("-password -refreshToken")
 
     const options = {
         httpOnly:true,
@@ -89,7 +89,7 @@ const loginUser = asynchandler(async(req,res)=>{
     .cookie("accessToken",accessToken,options)
     .json(new apiResponse(
         200,
-        {loggedInUser},
+        {LoggedInUser},
         "user login successfully!"
     ))
 });
@@ -125,7 +125,7 @@ const getCurrentUser = asynchandler(async(req,res)=>{
     .status(200)
     .json(new apiResponse(
         200,
-        res.res,
+        req.user,
         "current user fetched successfully"
     ))
 });
