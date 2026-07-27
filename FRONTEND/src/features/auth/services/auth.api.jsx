@@ -34,7 +34,7 @@ export const login = async({email,password})=>{
 
 export const logout = async()=>{
     try {
-        const repsonse = await api.get("/auth/logout")
+        const response = await api.get("/auth/logout")
     
         return response.data
     } catch (error) {

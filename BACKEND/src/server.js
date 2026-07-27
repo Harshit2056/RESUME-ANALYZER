@@ -14,10 +14,6 @@ import app from "./app.js";
 
 await connectDB()
   
-import generateInterviewReport from "./services/ai.service.js";
-import {resume,selfDescription,jobDescription }from "./services/temp.js"
-
-generateInterviewReport({selfDescription, jobDescription, resume})
 
 .then(()=>{
     app.listen(process.env.PORT,()=>{

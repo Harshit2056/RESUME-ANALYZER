@@ -3,23 +3,24 @@ import { z} from "zod"
 import { zodToJsonSchema } from "zod-to-json-schema";
 
 
+
 const interviewReportSchema = z.object({
     mathScore:z.number().min(0).max(100).describe("The score of the candidate in the math test"),
-    technicalQuestions:z.array(z.object({
+    technicalQuestionSchema:z.array(z.object({
         questions:z.string().describe("The Technical question can be asked in the interview"),
         intentions:z.string().describe("The intention of interviewer behind asking this technical question"),
         answer:z.string().describe("how to answer this question,what point to be covered in answer,what to avoid in answer,what approach to take ,etc...")
     })).describe("List of technical questions that can be asked in the interview along with their intentions and answers"),
-    behavioralQuestions:z.array(z.object({
+    behavioralQuestionSchema:z.array(z.object({
         questions:z.string().describe("The Behavioral question can be asked in the interview"),      
         intentions:z.string().describe("The intention of interviewer behind asking this behavioral question"),
         answer:z.string().describe("how to answer this question,what point to be covered in answer,what to avoid in answer,what approach to take ,etc...")
     })).describe("List of behavioral questions that can be asked in the interview along with their intentions and answers"),
-    skillGaps:z.array(z.object({    
+    skillGapSchema:z.array(z.object({    
         skills:z.string().describe("The skill gap that the candidate has"),
         severity:z.enum(['low','medium','high']).describe("The severity of the skill gap")
     })).describe("List of skill gaps that the candidate has along with their severity"),
-    preparationPlan:z.array(z.object({
+    preparationPlanSchema:z.array(z.object({
         day:z.number().describe("The day of the preparation plan"),
         focus:z.string().describe("The focus of the preparation plan for that day"),
         tasks:z.array(z.string()).describe("List of tasks to be completed on that day")
@@ -30,69 +31,88 @@ const interviewReportSchema = z.object({
 
 async function generateInterviewReport({selfDescription,jobDescription,resume}) {
 
-    const prompt = `
-    Generate ONLY valid JSON.
+    try {
+        const prompt = `
+    You are an interview expert.
 
-    Use exactly these keys:
+    Return ONLY valid JSON.
+
+    Do not return field names as strings.
+
+    Fill every field with realistic values.
+
+    technicalQuestionSchema must be an array of OBJECTS.
+
+    Example:
 
     {
-    "mathScore": number,
-    "technicalQuestions": [
+    "mathScore": 82,
+
+    "technicalQuestionSchema": [
         {
-        "questions": "",
-        "intentions": "",
-        "answer": ""
+        "questions": "Explain JWT",
+        "intentions": "Check authentication knowledge",
+        "answer": "..."
         }
     ],
-    "behavioralQuestions": [
+
+    "behavioralQuestionSchema": [
         {
-        "questions": "",
-        "intentions": "",
-        "answer": ""
+        "questions": "Tell me about yourself",
+        "intentions": "Check communication",
+        "answer": "..."
         }
     ],
-    "skillGaps": [
+
+    "skillGapSchema": [
         {
-        "skills": "",
-        "severity": "low | medium | high"
+        "skills": "Docker",
+        "severity": "medium"
         }
     ],
-    "preparationPlan": [
+
+    "preparationPlanSchema": [
         {
         "day": 1,
-        "focus": "",
-        "tasks": []
+        "focus": "Node.js",
+        "tasks": [
+            "Learn Express",
+            "Create REST API"
+        ]
         }
     ]
     }
 
-    Candidate Details:
+    Candidate:
 
-    Self Description:
-    ${selfDescription}
+    Resume:
+    ${resume}
 
     Job Description:
     ${jobDescription}
 
-    Resume:
-    ${resume}
+    Self Description:
+    ${selfDescription}
     `;
-                    
-
-    const ai = new GoogleGenAI({
-    apiKey:process.env.GOOGLE_GENAI_API_KEY
-    });
-
-    const response = await ai.models.generateContent({
-        model: "gemini-2.5-pro",
-        contents:prompt,
-        config: {
-            responseMimeType: "application/json",
-            responseSchema: zodToJsonSchema(interviewReportSchema),
-        },
-    });    
+                        
     
-    return JSON.parse(response.text);
+        const ai = new GoogleGenAI({
+        apiKey:process.env.GOOGLE_GENAI_API_KEY
+        });
+    
+        const response = await ai.models.generateContent({
+            model: "gemini-3.5-flash-lite",
+            contents:prompt,
+            config: {
+                responseMimeType: "application/json",
+            },
+        });    
+        
+        return JSON.parse(response.text);
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
 }
 
 export default generateInterviewReport;

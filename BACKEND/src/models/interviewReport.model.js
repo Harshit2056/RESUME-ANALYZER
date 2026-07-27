@@ -1,5 +1,6 @@
 import mongoose, { mongo } from "mongoose"
 
+
 /**
  * job description - type:string
  * resume text - type:string
@@ -33,6 +34,7 @@ import mongoose, { mongo } from "mongoose"
  *          tasks: [type:string]
  * },{day2}....]
  */
+
 
 const technicalQuestionSchema = new mongoose.Schema({
     questions:{
@@ -70,7 +72,7 @@ const behavioralQuestionSchema = new mongoose.Schema({
 
 const skillGapSchema = new mongoose.Schema({
     skills:{
-        type:"string",
+        type:String,
         required:[true,"skills is required"]
     },
     severity:{
@@ -93,7 +95,7 @@ const preparationPlanSchema = new mongoose.Schema({
     },
     tasks:[{
         type:String,
-        require:[true,"Task is required"]
+        required:[true,"Task is required"]
     }]
 })
 
@@ -112,15 +114,21 @@ const interviewReportSchema = new mongoose.Schema({
         type:String
     },
 
-    matchScore:{
+    mathScore:{
         type:Number,
         min:0,
         max:100
     },
+
     technicalQuestionSchema:[technicalQuestionSchema],
     behavioralQuestionSchema:[behavioralQuestionSchema],
     skillGapSchema:[skillGapSchema],
-    preparationPlanSchema:[preparationPlanSchema]
+    preparationPlanSchema:[preparationPlanSchema],
+    user:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User"
+    }
+
 },{timestamps:true})
 
 export const interViewReportModel = mongoose.model("interviewReportModel",interviewReportSchema)

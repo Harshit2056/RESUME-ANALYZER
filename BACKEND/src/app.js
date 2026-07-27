@@ -16,7 +16,10 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
 import authRouter from "./Routes/auth.route.js";
+import { interviewRouter } from "./routes/interview.route.js";
 
 app.use("/api/auth",authRouter);
+app.use("/api/auth",interviewRouter)
+
 
 export default app;
