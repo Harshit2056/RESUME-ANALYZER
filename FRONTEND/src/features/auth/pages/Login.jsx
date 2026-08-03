@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth.jsx';
-import { Bot, Mail, Lock, Eye, EyeOff, Sparkles, ArrowRight, Zap } from 'lucide-react';
+import { Bot, Mail, Lock, Eye, EyeOff, Sparkles, ArrowRight } from 'lucide-react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 
@@ -16,11 +16,10 @@ const Login = () => {
 
   useGSAP(() => {
     gsap.from(cardRef.current, {
-      y: 35,
+      y: 20,
       opacity: 0,
-      scale: 0.96,
-      duration: 0.8,
-      ease: 'power3.out'
+      duration: 0.6,
+      ease: 'power2.out'
     });
   }, []);
 
@@ -39,47 +38,40 @@ const Login = () => {
     }
   };
 
-  const handleFillDemo = () => {
-    setEmail('demo@genai.com');
-    setPassword('password123');
-  };
-
   return (
-    <div className="min-h-screen w-full bg-[#080B11] text-slate-100 flex items-center justify-center p-6 sm:p-8 relative overflow-hidden selection:bg-indigo-500 selection:text-white">
-      {/* Ambient Background Light Orbs */}
-      <div className="absolute top-1/4 left-1/3 w-[500px] h-[500px] bg-indigo-600/15 rounded-full blur-3xl pointer-events-none animate-pulse" />
-      <div className="absolute bottom-1/4 right-1/3 w-[500px] h-[500px] bg-cyan-500/15 rounded-full blur-3xl pointer-events-none animate-pulse delay-1000" />
+    <div className="min-h-screen w-full bg-[#0D1117] text-slate-100 flex items-center justify-center p-6 sm:p-8 relative selection:bg-indigo-500 selection:text-white">
+      {/* Soft Lighting Accent */}
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
 
-      {/* Production-Level Card */}
+      {/* Mixed Dark/Light SaaS Surface Card */}
       <div
         ref={cardRef}
-        className="w-full min-h-[500px] flex flex-col justify-center max-w-2xl p-10 sm:p-14 rounded-[32px] bg-slate-900/70 backdrop-blur-2xl border border-slate-800/90 shadow-2xl shadow-indigo-950/40 relative z-10 space-y-8"
+        className="w-full max-w-lg p-8 sm:p-10 rounded-2xl bg-slate-900 border border-slate-700/80 shadow-2xl shadow-slate-950/60 relative z-10 space-y-7"
       >
-        {/* Brand & Header Section */}
-        <div className="flex flex-col items-center justify-center text-center">
-          <div className="relative w-20 h-20 rounded-2xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-500 mx-auto flex items-center justify-center shadow-lg shadow-indigo-500/25 mb-3 group hover:scale-105 transition-transform duration-300">
-            <Bot className="w-10 h-10 text-white" />
-            <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-cyan-400 rounded-full animate-ping opacity-75" />
+        {/* Brand Header */}
+        <div className="text-center space-y-2">
+          <div className="w-12 h-12 rounded-xl bg-indigo-600 flex items-center justify-center text-white mx-auto shadow-md shadow-indigo-600/30 mb-3 border border-indigo-400/30">
+            <Bot className="w-6 h-6" />
           </div>
-          <h1 className="text-4xl sm:text-5xl font-heading font-extrabold text-white tracking-normal leading-tight text-center">
-            Welcome Back
+          <h1 className="text-2xl sm:text-3xl font-heading font-extrabold text-white tracking-tight">
+            Welcome back
           </h1>
-          <p className="text-base sm:text-lg text-slate-400 leading-relaxed max-w-lg mx-auto text-center">
-            Sign in to access your GenAI Resume & Mock Interview Intelligence Hub
+          <p className="text-xs sm:text-sm text-slate-300 font-normal leading-relaxed max-w-xs mx-auto">
+            Sign in to access your GenAI Resume strategy workspace
           </p>
         </div>
 
         {/* Error Alert */}
         {errorMsg && (
-          <div className="p-3.5 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-semibold text-center animate-in fade-in duration-200">
+          <div className="p-3 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-200 text-xs font-medium text-center">
             {errorMsg}
           </div>
         )}
 
         {/* Form Elements */}
-        <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-6">
-          <div className="space-y-2 mb-6 flex flex-col gap-1">
-            <label className="block text-sm font-semibold text-slate-300 uppercase tracking-wider">
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div className="space-y-1.5">
+            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider">
               Email Address
             </label>
             <div className="relative">
@@ -89,17 +81,17 @@ const Login = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="name@company.com"
                 required
-                className="w-full h-14 pl-8 pr-5 rounded-2xl bg-slate-950/80 border border-slate-800 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 text-base text-slate-200 placeholder:text-slate-600 outline-none transition-all"
+                className="w-full py-3 px-4 rounded-xl bg-slate-950/90 border border-slate-700 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30 text-sm text-slate-100 placeholder:text-slate-500 outline-none transition-all"
               />
             </div>
           </div>
 
-          <div className="space-y-2 mb-10 flex flex-col gap-1">
+          <div className="space-y-1.5">
             <div className="flex items-center justify-between">
-              <label className="block text-sm font-semibold text-slate-300 uppercase tracking-wider">
+              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider">
                 Password
               </label>
-              <a href="#" className="text-sm text-slate-500 hover:text-indigo-400 transition-colors">
+              <a href="#" className="text-xs text-indigo-400 hover:text-indigo-300 transition-colors font-medium">
                 Forgot password?
               </a>
             </div>
@@ -110,40 +102,38 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
                 required
-                className="w-full h-14 pl-8 pr-5 rounded-2xl bg-slate-950/80 border border-slate-800 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 text-base text-slate-200 placeholder:text-slate-600 outline-none transition-all"
+                className="w-full py-3 pl-4 pr-11 rounded-xl bg-slate-950/90 border border-slate-700 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30 text-sm text-slate-100 placeholder:text-slate-500 outline-none transition-all"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-5 top-[17px] text-slate-500 hover:text-slate-300 cursor-pointer"
+                className="absolute right-3.5 top-3 text-slate-400 hover:text-slate-200 cursor-pointer"
               >
-                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
             </div>
           </div>
 
-          <div className="flex justify-center mt-10 pt-2">
-            <button
-              type="submit"
-              disabled={loading}
-              className="relative w-[500px] h-[40px] py-4 rounded-2xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 font-heading font-extrabold text-lg text-white shadow-xl shadow-indigo-600/30 transition-all duration-300 flex items-center justify-center gap-3 cursor-pointer hover:scale-[1.01]"
-            >
-              {loading ? (
-                <span className="flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 animate-spin text-cyan-300" /> Authenticating...
-                </span>
-              ) : (
-                <>
-                  Sign In to Platform <ArrowRight className="w-5 h-5" />
-                </>
-              )}
-            </button>
-          </div>
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full mt-2 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 font-heading font-semibold text-sm text-white shadow-md shadow-indigo-600/30 transition-all cursor-pointer flex items-center justify-center gap-2"
+          >
+            {loading ? (
+              <span className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4 animate-spin text-indigo-200" /> Signing in...
+              </span>
+            ) : (
+              <>
+                Sign In <ArrowRight className="w-4 h-4" />
+              </>
+            )}
+          </button>
         </form>
 
         {/* Footer Section */}
-        <div className="text-center">
-          <p className="text-base text-slate-400">
+        <div className="text-center pt-4 border-t border-slate-800">
+          <p className="text-xs sm:text-sm text-slate-300">
             Don't have an account yet?{' '}
             <Link to="/register" className="text-indigo-400 font-semibold hover:underline">
               Create an account
