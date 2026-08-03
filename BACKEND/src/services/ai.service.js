@@ -24,7 +24,8 @@ const interviewReportSchema = z.object({
         day:z.number().describe("The day of the preparation plan"),
         focus:z.string().describe("The focus of the preparation plan for that day"),
         tasks:z.array(z.string()).describe("List of tasks to be completed on that day")
-    })).describe("List of preparation plans for the candidate to improve their skills and prepare for the interview")
+    })).describe("List of preparation plans for the candidate to improve their skills and prepare for the interview"),
+    title:z.string().describe("The title of the interview report for which the report is generated"),
 }).describe("Interview Report Schema");
 
 
@@ -81,7 +82,10 @@ async function generateInterviewReport({selfDescription,jobDescription,resume}) 
         ]
         }
     ]
-    }
+    },
+    'title': 'Software Engineer Interview Report'
+
+    The JSON must be valid and parsable.
 
     Candidate:
 

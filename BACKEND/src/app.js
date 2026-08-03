@@ -19,7 +19,7 @@ import authRouter from "./Routes/auth.route.js";
 import { interviewRouter } from "./routes/interview.route.js";
 
 app.use("/api/auth",authRouter);
-app.use("/api/auth",interviewRouter)
+app.use("/api/interview",interviewRouter)
 
 
 export default app;

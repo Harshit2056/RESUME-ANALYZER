@@ -5,9 +5,9 @@ const asynchandler = (fn)=>{
         }
         catch(error){
 
-            console.log(error.stack);
+            console.log(error);
 
-            res.status(500).json({
+            return res.status(error.statuscode ||500).json({
                 success:false,
                 message:error.message
             });
