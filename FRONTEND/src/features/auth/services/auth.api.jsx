@@ -16,6 +16,7 @@ export const register = async({username,password,email})=>{
         return response.data
     } catch (error) {
         console.log(error)
+        throw error;
     }
 }
 
@@ -29,16 +30,18 @@ export const login = async({email,password})=>{
         return response.data
     } catch (error) {
         console.log(error)
+        throw error;
     }
 }
 
 export const logout = async()=>{
     try {
-        const response = await api.get("/auth/logout")
+        const response = await api.post("/auth/logout")
     
         return response.data
     } catch (error) {
         console.log(error)
+        throw error;
     }
 }
 
@@ -49,5 +52,6 @@ export const getuser = async()=>{
         return response.data
     } catch (error) {
         console.log(error)
+        throw error;
     }
 }

@@ -85,16 +85,22 @@ async function generateInterviewReport({selfDescription,jobDescription,resume}) 
 
     The JSON must be valid and parsable.
 
+    If Resume is not provided, generate the report using Self Description.
+
+    If Self Description is not provided, generate the report using Resume.
+
+    If both are provided, combine information from both.
+
     Candidate:
 
     Resume:
-    ${resume}
+    ${resume || "No resume provided"}
 
     Job Description:
     ${jobDescription}
 
     Self Description:
-    ${selfDescription}
+    ${selfDescription || "No self-description provided"}
     `;
                         
     

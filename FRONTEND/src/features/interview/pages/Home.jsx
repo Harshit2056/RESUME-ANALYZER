@@ -110,6 +110,16 @@ const Home = () => {
 
   const handleGenerateReport = async () => {
     const resumeFile = selectedFile || (resumeInputRef.current && resumeInputRef.current.files[0]);
+    if(!jobDescription?.trim()){
+      alert("Job description is required to generate the interview report.");
+      return;
+    }
+
+    if(!resumeFile && !selfDescription?.trim()){
+      alert("Either a resume file or a self-description is required to generate the interview report.");
+      return;
+    }
+
     const data = await handleGenerateInterviewReport({
       jobDescription,
       selfDescription,
@@ -308,8 +318,8 @@ const Home = () => {
                     </h2>
                   </div>
                 </div>
-                <span className="px-2.5 py-0.5 text-[10px] font-semibold uppercase bg-cyan-500/15 text-cyan-300 rounded border border-cyan-500/30">
-                  Recommended
+                <span className="px-2.5 py-0.5 text-[10px] font-semibold uppercase bg-indigo-500/15 text-indigo-300 rounded border border-indigo-500/30">
+                  Required
                 </span>
               </div>
 

@@ -13,8 +13,10 @@ export const AuthProvider = ({children})=>{
         try {
             const data = await getuser();
 
-            if (data) {
+            if (data && data.data) {
                 setUser(data.data);
+            } else {
+                setUser(null);
             }
         } catch (error) {
             console.log(error);

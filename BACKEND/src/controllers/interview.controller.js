@@ -11,29 +11,36 @@ import apiResponse from "../utils/apiResponse.js";
 const generateInterviewReportController = asynchandler(async(req,res)=>{
     const {selfDescription,jobDescription} = req.body
 
-    if(!selfDescription || !jobDescription){
-        throw new apiError(400,"jobDescription and selfDescription is required")
+    if(!jobDescription?.trim()){
+        throw new apiError(400,"jobDescription is required")
     }
 
-    if(!req.file){
+    if(!req.file && !selfDescription?.trim()){
         throw new apiError(400,"jobDescription and selfDescription is required")    
     }
-    const pdfBuffer = fs.readFileSync(req.file.path);
-    const parser = new PDFParse({
-        data:pdfBuffer
+    let resumeText = "";
+    if (req.file) {
+        const pdfBuffer = fs.readFileSync(req.file.path);
+        const parser = new PDFParse({
+            data: pdfBuffer
+        });
+        const parsed = await parser.getText();
+        resumeText = typeof parsed === 'string' ? parsed : (parsed?.text || "");
+    }
+
+    const reportByAi = await generateInterviewReport({
+        resume: resumeText,
+        selfDescription,
+        jobDescription,
     });
-    const resumeContent = await parser.getText();
-
-
-    const reportByAi = await generateInterviewReport({resume:resumeContent.text,selfDescription,jobDescription,})
 
     const interviewReport = await interviewReportModel.create({
         user: req.user._id,
-        resume:resumeContent.text,
+        resume: resumeText,
         selfDescription,
         jobDescription,
         ...reportByAi
-    })
+    });
 
     return res
     .status(201)
@@ -82,9 +89,13 @@ const getAllInterviewReports = asynchandler(async(req,res)=>{
 
 //controller to generate pdf from html content based on resume,selfDescription and jobDescription
 const generateResumePdfController = asynchandler(async(req,res)=>{
-    const {interviewReportId} = req.params
+    const {interviewId} = req.params
 
-    const interviewReport = await interviewReportModel.findById(interviewReportId)
+    console.log("req.params =", req.params);
+console.log("interviewId =", interviewId);
+console.log("typeof =", typeof interviewId);
+
+    const interviewReport = await interviewReportModel.findById(interviewId)
 
     if(!interviewReport){
         throw new apiError(404,"interview report not found")

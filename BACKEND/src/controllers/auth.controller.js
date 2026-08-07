@@ -79,9 +79,11 @@ const loginUser = asynchandler(async(req,res)=>{
     const LoggedInUser = await User.findById(user._id).select("-password -refreshToken")
 
     const options = {
-        httpOnly:true,
-        secure:true
-    }
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        path: "/"
+    };
 
     return res
     .status(200)
@@ -96,17 +98,23 @@ const loginUser = asynchandler(async(req,res)=>{
 
 const logoutUser = asynchandler(async (req,res)=>{
 
-    await tokenBlacklistModel.create({token:req.token})
+    if (req.token) {
+        await tokenBlacklistModel.create({token:req.token});
+    }
 
-    await User.findOneAndUpdate(
-        req.user._id,
-        {$unset:{refreshToken:1}},
-    )
+    if (req.user?._id) {
+        await User.findByIdAndUpdate(
+            req.user._id,
+            {$unset:{refreshToken:1}},
+        );
+    }
 
     const options = {
-        httpOnly:true,
-        secure:true
-    }
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        path: "/"
+    };
 
     return res
     .status(200)

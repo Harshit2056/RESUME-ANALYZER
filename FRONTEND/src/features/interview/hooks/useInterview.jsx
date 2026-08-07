@@ -33,7 +33,7 @@ export const useInterview = () =>{
     const handleGetInterviewReportById = async(interviewId)=>{
         setLoading(true)    
         try {
-            const response = await getInterviewReportById({interviewId})
+            const response = await getInterviewReportById(interviewId)
             setReport(response.data.interviewReport)
             return true;
         } catch (error) {
