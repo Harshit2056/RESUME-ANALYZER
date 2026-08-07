@@ -1,4 +1,5 @@
-import generateInterviewReport from "../services/ai.service.js";
+import {generateInterviewReport} from "../services/ai.service.js";
+import {generateResumePdf} from "../services/ai.service.js";
 import apiError from "../utils/apiError.js";
 import asynchandler from "../utils/asynchandler.js";
 import { PDFParse} from "pdf-parse"
@@ -79,4 +80,24 @@ const getAllInterviewReports = asynchandler(async(req,res)=>{
     ))
 })
 
-export {generateInterviewReportController,getInterviewReportById,getAllInterviewReports}
+//controller to generate pdf from html content based on resume,selfDescription and jobDescription
+const generateResumePdfController = asynchandler(async(req,res)=>{
+    const {interviewReportId} = req.params
+
+    const interviewReport = await interviewReportModel.findById(interviewReportId)
+
+    if(!interviewReport){
+        throw new apiError(404,"interview report not found")
+    }
+
+    const {selfDescription,jobDescription,resume} = interviewReport
+
+    const pdfBuffer = await generateResumePdf({resume,selfDescription,jobDescription})
+
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'attachment; filename=resume.pdf');
+    res.send(pdfBuffer);
+})
+
+
+export {generateInterviewReportController,getInterviewReportById,getAllInterviewReports,generateResumePdfController}

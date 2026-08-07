@@ -244,7 +244,7 @@ const RoadMapDay = ({ day }) => {
 const Interview = () => {
   const [activeNav, setActiveNav] = useState('technical');
   const [severityFilter, setSeverityFilter] = useState('all');
-  const { report, handleGetInterviewReportById, loading } = useInterview();
+  const { report, handleGetInterviewReportById, loading,handleGenerateResumePdf } = useInterview();
   const { interviewId } = useParams();
   const navigate = useNavigate();
   const circleRef = useRef(null);
@@ -325,7 +325,7 @@ const Interview = () => {
 
           <div className="flex items-center gap-3 flex-wrap">
             <button
-              onClick={() => window.print()}
+              onClick={() => handleGenerateResumePdf(interviewId)}
               className="px-4 py-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-700 text-xs font-semibold text-slate-200 transition-all flex items-center gap-2 cursor-pointer shadow-sm"
             >
               <Download className="w-3.5 h-3.5 text-slate-300" />
