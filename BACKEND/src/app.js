@@ -14,6 +14,7 @@ app.use(cors({
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
+app.use(express.static("public"))
 
 import authRouter from "./Routes/auth.route.js";
 import { interviewRouter } from "./routes/interview.route.js";

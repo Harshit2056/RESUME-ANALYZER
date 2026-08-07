@@ -6,7 +6,7 @@ import mongoose, { mongo } from "mongoose"
  * resume text - type:string
  * self description - type:string
  * 
- * -matchScore: type:number
+ * -mathScore: type:number
  * 
  * - technical questions : 
  *          [{

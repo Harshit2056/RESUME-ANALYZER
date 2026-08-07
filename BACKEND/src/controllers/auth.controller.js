@@ -95,8 +95,6 @@ const loginUser = asynchandler(async(req,res)=>{
 });
 
 const logoutUser = asynchandler(async (req,res)=>{
-console.log(req.token);
-console.log(typeof req.token);
 
     await tokenBlacklistModel.create({token:req.token})
 

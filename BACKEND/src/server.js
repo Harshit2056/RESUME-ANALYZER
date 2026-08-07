@@ -1,5 +1,4 @@
-import express from "express"
-const server = express();
+
 const port = process.env.PORT || 4000;
 
 
