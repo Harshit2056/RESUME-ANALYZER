@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken"
+import { randomBytes, createHash } from "node:crypto";
+
 
 const userSchema = new mongoose.Schema({
     username:{
@@ -21,6 +23,12 @@ const userSchema = new mongoose.Schema({
     },
     refreshToken: {
         type: String
+    },
+    resetPasswordToken: {
+        type: String
+    },
+    resetPasswordExpire: {
+        type: Date
     }
 },{timestamps:true})
 
@@ -56,6 +64,25 @@ userSchema.methods.generateRefreshToken = async function(){
     {
         expiresIn: process.env.REFRESH_TOKEN_EXPIRY
     });
+};
+
+
+
+userSchema.methods.generateResetPasswordToken = function () {
+
+    // Random token generate karo
+    const resetToken = randomBytes(32).toString("hex");
+
+    // Database me hash save karo
+    this.resetPasswordToken = createHash("sha256")
+        .update(resetToken)
+        .digest("hex");
+
+    // 15 min expiry
+    this.resetPasswordExpire = Date.now() + 15 * 60 * 1000;
+
+    // Original token return karo
+    return resetToken;
 };
 
 export const User = mongoose.model("User",userSchema)
