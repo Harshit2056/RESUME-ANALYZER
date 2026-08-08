@@ -30,8 +30,14 @@ app.use(express.static("public"))
 import authRouter from "./routes/auth.route.js";
 import { interviewRouter } from "./routes/interview.route.js";
 
-app.use("/api/auth",authRouter);
-app.use("/api/interview",interviewRouter)
+app.get("/", (req, res) => {
+    res.status(200).json({
+        success: true,
+        message: "GenAI Resume & Mock Interview API is running smoothly."
+    });
+});
 
+app.use("/api/auth", authRouter);
+app.use("/api/interview", interviewRouter);
 
 export default app;
