@@ -7,7 +7,7 @@ dotenv.config({
 
 const port = process.env.PORT || 4000;
 
-import connectDB from "./db/index.js";
+import connectDB from "./DB/index.js";
 import app from "./app.js";
 
 await connectDB()
