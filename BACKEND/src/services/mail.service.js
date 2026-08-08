@@ -20,7 +20,7 @@ export const getTransporter = () => {
     });
 };
 
-export const sendEmail = async ({ to, subject, html }) => {
+export const sendEmail = async ({ to, subject, html, text }) => {
     const transporter = getTransporter();
     const user = process.env.EMAIL_USER?.trim();
 
@@ -28,6 +28,7 @@ export const sendEmail = async ({ to, subject, html }) => {
         from: `"GenAI Resume" <${user}>`,
         to,
         subject,
+        text: text || "Password Reset Request from GenAI Resume",
         html
     });
 };

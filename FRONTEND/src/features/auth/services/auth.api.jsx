@@ -55,3 +55,28 @@ export const getuser = async()=>{
         throw error;
     }
 }
+
+export const forgotPassword = async({email})=>{
+    try {
+        const response = await api.post("/auth/forgot-password",{
+            email
+        })
+        return response.data
+    } catch (error) {
+        console.log(error)
+        throw error;
+    }
+}
+
+
+export const resetPassword = async({token,password})=>{
+    try {
+        const response = await api.post(`/auth/reset-password/${token}`,{
+            password
+        })
+        return response.data
+    } catch (error) {
+        console.log(error)
+        throw error;
+    }
+}

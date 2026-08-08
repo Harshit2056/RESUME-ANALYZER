@@ -41,7 +41,7 @@ const Register = () => {
     try {
       const success = await handleRegister({ username, email, password });
       if (success) {
-        navigate('/');
+        navigate('/login');
       } else {
         setErrorMsg('Registration failed. Please check your details.');
       }
@@ -84,7 +84,7 @@ const Register = () => {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1.5">
             <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider">
-              Full Name / Username
+              Full Name 
             </label>
             <input
               type="text"

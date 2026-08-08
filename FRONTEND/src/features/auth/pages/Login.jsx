@@ -91,9 +91,9 @@ const Login = () => {
               <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider">
                 Password
               </label>
-              <a href="#" className="text-xs text-indigo-400 hover:text-indigo-300 transition-colors font-medium">
-                Forgot password?
-              </a>
+              <Link to={"/forgot-password"} className="text-xs text-indigo-400 hover:text-indigo-300 transition-colors font-medium">
+                Forgot Password
+              </Link>
             </div>
             <div className="relative">
               <input

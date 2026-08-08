@@ -1,6 +1,6 @@
 import { useContext,useEffect } from "react";
 import { AuthContext } from "../auth.context";
-import { logout,login,register,getuser, } from "../services/auth.api.jsx";
+import { logout,login,register,getuser, resetPassword,forgotPassword } from "../services/auth.api.jsx";
 
 export const useAuth = () =>{
 
@@ -53,7 +53,40 @@ export const useAuth = () =>{
         
     }
 
-    
+    const handleForgotPassword = async ({ email }) => {
+        setLoading(true);
+        try {
+            const data = await forgotPassword({ email });
+            return data;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        } finally {
+            setLoading(false);
+        }
+    };
 
-    return {user,handleLogin,handleLogout,handleRegister,loading}
+    const handleResetPassword = async ({ token, password }) => {
+        setLoading(true);
+        try {
+            const data = await resetPassword({ token, password });
+            return data;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return {
+        user,
+        handleLogin,
+        handleLogout,
+        handleRegister,
+        handleResetPassword,
+        handleForgotPassword,
+        handleforgotPassword: handleForgotPassword,
+        loading
+    };
 }

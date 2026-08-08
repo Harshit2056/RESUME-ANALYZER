@@ -70,10 +70,10 @@ userSchema.methods.generateRefreshToken = async function(){
 
 userSchema.methods.generateResetPasswordToken = function () {
 
-    // Random token generate karo
+    // Random token generate 
     const resetToken = randomBytes(32).toString("hex");
 
-    // Database me hash save karo
+    // Database me hash save 
     this.resetPasswordToken = createHash("sha256")
         .update(resetToken)
         .digest("hex");
@@ -81,7 +81,7 @@ userSchema.methods.generateResetPasswordToken = function () {
     // 15 min expiry
     this.resetPasswordExpire = Date.now() + 15 * 60 * 1000;
 
-    // Original token return karo
+    // Original token return 
     return resetToken;
 };
 
