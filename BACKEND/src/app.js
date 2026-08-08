@@ -6,10 +6,21 @@ import cors from "cors"
 const app= express();
 
 
+const allowedOrigins = [
+    process.env.CLIENT_URL,
+    process.env.CORS_ORIGIN,
+    "http://localhost:5173"
+].filter(Boolean);
+
 app.use(cors({
-    origin:"http://localhost:5173",
-    credentials:true 
-}))
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV !== "production") {
+            return callback(null, true);
+        }
+        return callback(null, true);
+    },
+    credentials: true 
+}));
 
 app.use(cookieParser());
 app.use(express.json());
