@@ -82,10 +82,12 @@ const loginUser = asynchandler(async(req,res)=>{
 
     const LoggedInUser = await User.findById(user._id).select("-password -refreshToken")
 
+    const isProduction = process.env.NODE_ENV === "production" || process.env.RENDER === "true";
+
     const options = {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        secure: isProduction,
+        sameSite: isProduction ? "none" : "lax",
         path: "/"
     };
 
@@ -113,10 +115,12 @@ const logoutUser = asynchandler(async (req,res)=>{
         );
     }
 
+    const isProduction = process.env.NODE_ENV === "production" || process.env.RENDER === "true";
+
     const options = {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        secure: isProduction,
+        sameSite: isProduction ? "none" : "lax",
         path: "/"
     };
 
