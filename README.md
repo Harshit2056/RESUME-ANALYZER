@@ -76,8 +76,4 @@ npm install
 npm run dev
 ```
 
----
 
-## 👨‍💻 Author
-
-- **Harshit Jain** – [GitHub](https://github.com/Harshit2056)
